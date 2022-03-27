@@ -1,0 +1,20 @@
+<html>
+    <head></head>
+    <body>
+        <span id="header">Stoopid turtle game!</span>
+
+        <script type="text/javascript">
+            let money = 0
+        </script>
+        <span id="money">You have $0</span>
+        <div id="penis"></div>
+        <button type="button" onclick="
+        let num = Math.floor(Math.random() * 100)
+        console.log(num)
+        money += 25000
+        document.getElementById('money').textContent = 'You have $' + money
+        if(num == 1){
+            document.getElementById('penis').textContent = 'O no! You have become PENIS'
+        }">Click</button>
+    </body>
+</html>

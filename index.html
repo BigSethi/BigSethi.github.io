@@ -1,5 +1,6 @@
 <head>
     <script src="./javascript/main.js"></script>
+    <script src="./javascript/interaction.js"></script>
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
@@ -8,35 +9,56 @@
         <h1>Wave Collapse Algorithm</h1>
     </div>
     <div class="main-container">
-           <canvas id="canvas" width="500" height="500"></canvas>
-           <div class="controls-container">
-                <div id="controls">
-                    <div>
-                        <button>Upload Tiles</button>
-                        <button>Upload Rules</button>
-                    </div>
+        <canvas id="canvas" width="500" height="500"></canvas>
+        <div class="controls-container">
+            <div id="controls">
+                <form>
+                    <label>Choose a tileset</label>
+                    <select onchange="setTileset()" id="presets">
+                        <option value="pipes" selected>Pipes</option>
+                        <option value="demo">Demo</option>
+                        <option value="mountains">Mountains</option>
+                        <option value="polka">Polka</option>
+                        <option value="rail">Rail</option>
+                        <option value="roads">Roads</option>
+                        <option value="custom">Custom</option>
+                    </select>
                     
-                    <span><input id="width" type="number"> x <input id="height" type="number"></span>
-                  
-                    
+                </form>
+                <div class="uploads">
+                    <button>Upload Tiles</button>
+                    <button>Upload Rules</button>
                 </div>
-            <div class="pictures">
+                    
+                <div class="inputs">
+                    Width: 
+                    <input class="dimensions" id="width" type="number">
+                    Height:
+                    <input class="dimensions" id="height" type="number">
+                </div>
 
+
+                             
             </div>
             <div class="buttons">
                 <button>Back</button>
                 <button onclick="main();">Build</button>   
             </div>
             
-           </div>
+        </div>
            
-        <p>
-            This is the wave collapse algorithm use the buttons to the left to either input a 
-            tileset or put in a seed picture 
-        </p>
-    </div>
-    </div>
+        <div id="pictures">
+            <script>setTileset()</script>
 
-   
+        </div>
+        <div id="rules"> </div>
+
+        
+        </div>
+    </div>
+    <p>
+        This is the wave collapse algorithm use the buttons to the left to either input a 
+        tileset or put in a seed picture 
+    </p>
 
 </body>

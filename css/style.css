@@ -15,13 +15,13 @@ p{
 #controls{
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 1rem;
 }
 
 .main-container{
     display: flex;
     flex-direction: row;
-    gap: 40px;
+    gap: 1rem;
     vertical-align: middle;
 }
 
@@ -31,12 +31,28 @@ p{
     gap: 50px;
 }
 
+.dimensions{
+    width: 3rem;
+}
+
+.inputs{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
 .buttons{
     display: flex;
     gap: 10px;
+    
 }
 
 #canvas {
     border: 1px solid black;
+}
+
+#pictures {
+    display: flex;
+    gap: 1rem
 }
 

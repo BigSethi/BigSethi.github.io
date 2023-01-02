@@ -1,4 +1,7 @@
-const rules = {
+let wave;
+let tilesetName;
+let tileset = []
+let rules = {
     up: {
         above: ["right", "down", "left"],
         right: ["down", "left", "up"],
@@ -34,10 +37,11 @@ const rules = {
 
 class Tile{
     
-    constructor(id, neighbors, states, canvasWidth, canvasHeight){
+    constructor(id, neighbors, edges, states, canvasWidth, canvasHeight){
         this.id = id
         this.neighbors = neighbors
         this.states = states
+        this.edges = edges 
         this.collapsed = false
         this.canvasWidth = canvasWidth
         this.canvasHeight = canvasHeight
@@ -65,14 +69,13 @@ class Tile{
                 false)
             
 
-            img.src = "pipes/" + this.states[0] + ".png"
+            img.src = "tilesets/" + tilesetName + "/" + this.states[0] + ".png"
 
         }        
        
     }
 
 }
-let counter = 0
 class Wave{
 
     constructor(){
@@ -83,26 +86,31 @@ class Wave{
         
         
         for(let i = 0; i < this.wave.length; i++){
-            const neighbors = [null, null, null, null] // top right bottom left
+            const neighbors = [] // top right bottom left
+            const edges = []
 
 
             if((Math.floor(i / width) - 1) >= 0){
-                neighbors[0] = (i - width)
+                neighbors.push(i - width)
+                edges.push("above")
             }
 
             if((i + 1) % width != 0){
-                neighbors[1] = (i + 1)
+                neighbors.push(i + 1)
+                edges.push("right")
             }
 
             if((Math.floor(i / width) + 1) < height){
-                neighbors[2] = (i + width)
+                neighbors.push(i + width)
+                edges.push("below")
             }
 
             if(i % width != 0){
-                neighbors[3] = (i - 1)
+                neighbors.push(i - 1)
+                edges.push("left")
             }
 
-            this.wave[i] = new Tile(i, neighbors, ["up", "right", "down", "left", "blank"], width, height)
+            this.wave[i] = new Tile(i, neighbors, edges, tileset, width, height)
         }
 
     }
@@ -143,7 +151,7 @@ class Wave{
             min.states = [states[Math.floor(Math.random() * states.length)]]
             min.collapsed = true
             counter = 0
-            this.propagate([min], ["noWhere"], [])
+            this.propagate([min], ["noWhere"], [null], [])
            
             return true
         }
@@ -152,31 +160,19 @@ class Wave{
 
     
 
-    propagate(toVisit, comingFrom, edgesUsed){
+    propagate(toVisit, comingFrom, edges, edgesUsed){
 
         function getNode(id, graph){
-            
-            // for(let i = 0; i < graph.length; i++){
-            //     if (graph[i].id == id){
-            //         return graph[i]
-            //     }
-            // }
-            // return false
-
-            
-          return graph[id]
+            if(id == "noWhere"){
+                return "noWhere"
+            } else {
+                return graph[id]
+            }
+          
         }
 
         function getNeighbors(id, graph){
-            const neighbors = []
-
-            getNode(id, graph).neighbors.forEach((neighbor) => {
-                if(neighbor != null){
-                    neighbors.push(getNode(neighbor, graph))
-                }
-            })
-
-            return neighbors
+            return graph[id].neighbors.map((id) => graph[id])
         }
 
 
@@ -185,74 +181,47 @@ class Wave{
         } else {
             const node = toVisit[0]
             const neighbors = getNeighbors(node.id, this.wave)
+            const incomingEdge = edges[0]
+            const lastNode = getNode(comingFrom[0], this.wave)
 
-            if(edgesUsed.includes(comingFrom[0] + node.id) || node.isCollapsed){
-                this.propagate(toVisit.slice(1), comingFrom.slice(1), edgesUsed)
-            } else {
-                let allowedImages = []
-                const upID = node.neighbors[0]
-                const rightID = node.neighbors[1]
-                const downID = node.neighbors[2]
-                const leftID = node.neighbors[3]
-                
-                
-
-                if(upID != null){
-                    let array = []
-                    getNode(upID, this.wave).states.forEach((state) => {                       
-                        array = array.concat(rules[state].below)
-                    })
-
-                    allowedImages.push(array)
-                }
-                if(rightID != null){
-                    let array = []
-                    getNode(rightID, this.wave).states.forEach((state) => {
-                        array = array.concat(rules[state].left)
-                     
-                    })
-                    allowedImages.push(array)
-                }
-                if(downID != null){
-                    let array = []
-                    getNode(downID, this.wave).states.forEach((state) => {
-                        array = array.concat(rules[state].above)
-                    })
-                    allowedImages.push(array)
-                }
-                if(leftID != null){
-                    let array = []
-                    getNode(leftID, this.wave).states.forEach((state) => {
-                        array = array.concat(rules[state].right)
-                    })
-                    allowedImages.push(array)
-                }
-           
-
-                let realAllowedImages = allowedImages[0].filter((state) => {
-                    let neighborAllowsImage = true
-                    for(let i = 1; i < allowedImages.length; i++){
-                        if(allowedImages[i].includes(state)){
-                            neighborAllowsImage = true;
-                        }   else {
-                            neighborAllowsImage = false;
-                            break;
-                        }          
-                    }
-                    return neighborAllowsImage    
-                })
-                
-                    
-                node.states = node.states.filter((state) => {return realAllowedImages.includes(state)})
+            if(lastNode == "noWhere"){
 
                 const newEdgesUsed = edgesUsed.concat([comingFrom[0] + node.id])
+                const comingFromArray = new Array(neighbors.length).fill(node.id)
+                
+                this.propagate(toVisit.slice(1).concat(neighbors), 
+                    comingFrom.slice(1).concat(comingFromArray), 
+                    edges.slice(1).concat(node.edges), 
+                    newEdgesUsed)
+            }
+            else if(edgesUsed.includes(comingFrom[0].toString() + node.id) || node.collapsed){
+                const newEdgesUsed = edgesUsed.concat([comingFrom[0].toString() + node.id])
+                this.propagate(toVisit.slice(1), comingFrom.slice(1), edges.slice(1), newEdgesUsed)
+            } 
+            else {
+                let allowedImages = []
 
-                const comingFromArray = new Array(neighbors.length).fill(node.id.toString())
+
+                lastNode.states.forEach((state) => {
+                    allowedImages = allowedImages.concat(rules[state][incomingEdge])
+                })
+
+                let previousAllowedStates = node.states.length
+                node.states = node.states.filter((state) => {return allowedImages.includes(state)})
+
+                const newEdgesUsed = edgesUsed.concat([comingFrom[0].toString() + node.id])
+
+                if(previousAllowedStates != node.states.length){ 
+                    const comingFromArray = new Array(neighbors.length).fill(node.id)
+                    
+                    this.propagate(toVisit.slice(1).concat(neighbors), 
+                        comingFrom.slice(1).concat(comingFromArray), 
+                        edges.slice(1).concat(node.edges), 
+                        newEdgesUsed)
+                } else {
+                    this.propagate(toVisit.slice(1), comingFrom.slice(1), edges.slice(1), newEdgesUsed)
+                }
                 
-                this.propagate(toVisit.slice(1).concat(neighbors), comingFrom.slice(1).concat(comingFromArray), newEdgesUsed)
-               
-                
-            
                
                 
             }
@@ -261,7 +230,6 @@ class Wave{
     }
 }
 
-let wave;
 
 
 function main(){

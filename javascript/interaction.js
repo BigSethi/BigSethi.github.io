@@ -29,10 +29,12 @@ function setTileset(){
         parent.appendChild(elem)
     });
 
-    let JSONString = fetch("rules/" + tilesetName + ".json").then(response => response.json()).then(data => data)
 
-    document.getElementById("rules").innerText = JSONString
+    fetch("rules/" + tilesetName + ".json").then(response => response.text()).then(data => {
+        document.getElementById("rules").innerText = data
+        rules = JSON.parse(data)
 
-    rules = JSON.parse(JSONString)
+    })
+   
 
 }

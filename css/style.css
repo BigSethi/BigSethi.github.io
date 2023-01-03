@@ -12,23 +12,17 @@ p{
     font-family: "Times New Roman", Times, serif;
 }
 
-#controls{
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
 
 .main-container{
     display: flex;
     flex-direction: row;
     gap: 1rem;
-    vertical-align: middle;
 }
 
 .controls-container{
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 1rem;
 }
 
 .dimensions{
@@ -43,7 +37,7 @@ p{
 
 .buttons{
     display: flex;
-    gap: 10px;
+    gap: 1rem;
     
 }
 
@@ -54,5 +48,23 @@ p{
 #pictures {
     display: flex;
     gap: 1rem
+}
+
+.canvas-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+.canvas-controls-text{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.pictures-rules{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 

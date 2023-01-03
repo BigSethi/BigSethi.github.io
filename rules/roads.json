@@ -1,0 +1,32 @@
+{
+    "up": {
+        "above": ["right", "down", "left"],
+        "right": ["down", "left", "up"],
+        "below": ["blank", "down"],
+        "left": ["down", "right", "up"]
+    },
+    "right": {
+        "above": ["down", "left", "right"],
+        "right": ["up", "left", "down"],
+        "below": ["left", "up", "right"],
+        "left": ["blank", "left"]
+    },
+    "down": {
+        "above": ["blank", "up"],
+        "right": ["left", "up", "down"],
+        "below": ["left", "right", "up"],
+        "left": ["right", "up", "down"]
+    },
+    "left": {
+        "above": ["down", "right", "left"],
+        "right": ["blank", "right"],
+        "below": ["up", "right", "left"],
+        "left": ["right", "down", "up"]
+    },
+    "blank": {
+        "above": ["up", "blank"],
+        "right": ["right", "blank"],
+        "below": ["down", "blank"],
+        "left": ["left", "blank"]
+    }
+}

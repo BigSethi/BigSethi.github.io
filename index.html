@@ -1,6 +1,5 @@
 <head>
-    <script src="./javascript/main.js"></script>
-    <script src="./javascript/interaction.js"></script>
+    
     <link rel="stylesheet" href="./css/style.css">
 
 </head>
@@ -28,36 +27,46 @@
                             
                     </form>
                     <div class="uploads">
-                        <button>Upload Tiles</button>
-                        <button>Upload Rules</button>
+                        <input id="tiles-upload" type="file" multiple accept="image/*">
+                        <button id="tiles-upload-button">Upload Tiles</button>
+                        <input id="rules-upload" type="file">
+                        <button id="rules-upload-button">Upload Rules</button>
                     </div>
                             
                     <div class="inputs">
                         Width: 
-                        <input class="dimensions" id="width" type="number">
+                        <input class="dimensions" id="width" type="number" value="5">
                         Height:
-                        <input class="dimensions" id="height" type="number">
+                        <input class="dimensions" id="height" type="number" value="5">
                     </div>
     
                     <div class="buttons">
                         <button>Back</button>
-                        <button onclick="main();">Build</button>   
+                        <button id="build">Build</button>   
                     </div>
                     
                 </div>
             </div>
-            <p>
-                This is the wave collapse algorithm use the buttons to the left to either input a 
-                tileset or put in a seed picture 
-            </p>
+            <div id="description">
+                <span>
+                    This website procedurally generates maps using the Wave Collapse Algorithm <br>
+                    (<a href="https://github.com/mxgmn/WaveFunctionCollapse">Here</a>). Each map is made from a tileset and constraints<br>
+                    which describe which tiles are allowed, above, below, to the right, and to the left of other tiles. <br>You can either choose premade
+                    tilesets and rules from the dropdown or upload your own tiles and rules. 
+
+            
+                </span>
+            </div>
+           
 
         </div>
         
         <div class="pictures-rules">
             <label>Tileset: </label>
-            <div id="pictures">
-            
+            <div>
+                <span id="pictures">
 
+                </span>
             </div>
             <label>Constraints: </label>
             <p id="rules"> 
@@ -67,6 +76,11 @@
                   
     </div>
     
-
-    <script>setTileset()</script>
+    <script src="./javascript/main.js"></script>
+    <script src="./javascript/interaction.js"></script>
+    <script>
+        setTileset()
+        setUpUploads()
+        setUpBuild()
+    </script>
 </body>

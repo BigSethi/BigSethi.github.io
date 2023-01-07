@@ -1,32 +1,32 @@
 {
-    "up": {
-        "above": ["right", "down", "left"],
-        "right": ["down", "left", "up"],
-        "below": ["blank", "down"],
-        "left": ["down", "right", "up"]
+    "up.png": {
+        "above": ["right.png", "down.png", "left.png"],
+        "right": ["down.png", "left.png", "up.png"],
+        "below": ["blank.png", "down.png"],
+        "left": ["down.png", "right.png", "up.png"]
     },
-    "right": {
-        "above": ["down", "left", "right"],
-        "right": ["up", "left", "down"],
-        "below": ["left", "up", "right"],
-        "left": ["blank", "left"]
+    "right.png": {
+        "above": ["down.png", "left.png", "right.png"],
+        "right": ["up.png", "left.png", "down.png"],
+        "below": ["left.png", "up.png", "right.png"],
+        "left": ["blank.png", "left.png"]
     },
-    "down": {
-        "above": ["blank", "up"],
-        "right": ["left", "up", "down"],
-        "below": ["left", "right", "up"],
-        "left": ["right", "up", "down"]
+    "down.png": {
+        "above": ["blank.png", "up.png"],
+        "right": ["left.png", "up.png", "down.png"],
+        "below": ["left.png", "right.png", "up.png"],
+        "left": ["right.png", "up.png", "down.png"]
     },
-    "left": {
-        "above": ["down", "right", "left"],
-        "right": ["blank", "right"],
-        "below": ["up", "right", "left"],
-        "left": ["right", "down", "up"]
+    "left.png": {
+        "above": ["down.png", "right.png", "left.png"],
+        "right": ["blank.png", "right.png"],
+        "below": ["up.png", "right.png", "left.png"],
+        "left": ["right.png", "down.png", "up.png"]
     },
-    "blank": {
-        "above": ["up", "blank"],
-        "right": ["right", "blank"],
-        "below": ["down", "blank"],
-        "left": ["left", "blank"]
+    "blank.png": {
+        "above": ["up.png", "blank.png"],
+        "right": ["right.png", "blank.png"],
+        "below": ["down.png", "blank.png"],
+        "left": ["left.png", "blank.png"]
     }
 }

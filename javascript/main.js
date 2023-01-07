@@ -2,38 +2,10 @@ let wave;
 let tilesetName;
 let tileset = []
 let rules = {}
-// let rules = {
-//     up: {
-//         above: ["right", "down", "left"],
-//         right: ["down", "left", "up"],
-//         below: ["blank", "down"],
-//         left: ["down", "right", "up"]
-//     },
-//     right: {
-//         above: ["down", "left", "right"],
-//         right: ["up", "left", "down"],
-//         below: ["left", "up", "right"],
-//         left: ["blank", "left"]
-//     },
-//     down: {
-//         above: ["blank", "up"],
-//         right: ["left", "up", "down"],
-//         below: ["left", "right", "up"],
-//         left: ["right", "up", "down"]
-//     },
-//     left: {
-//         above: ["down", "right", "left"],
-//         right: ["blank", "right"],
-//         below: ["up", "right", "left"],
-//         left: ["right", "down", "up"]
-//     },
-//     blank: {
-//         above: ["up", "blank"],
-//         right: ["right", "blank"],
-//         below: ["down", "blank"],
-//         left: ["left", "blank"]
-//     }
-// }
+let uploadedImages = {}
+let uploadedRules = "{}"
+const canvas = document.getElementById("canvas")
+const ctx = canvas.getContext("2d")
 
 
 class Tile{
@@ -51,26 +23,37 @@ class Tile{
 
     draw(ctx){
         if(this.collapsed){
-            const img = new Image()
+            let sideLength;
+            let x;
+            let y;
+    
+            if(this.canvasHeight > this.canvasWidth){
+                sideLength = Math.floor(500 / this.canvasHeight)
+            } else {
+                sideLength = Math.floor(500 / this.canvasWidth)
+            }
+
+            x = (this.id % this.canvasWidth) * sideLength
+            y = Math.floor(this.id / this.canvasWidth) * sideLength
 
 
-            img.addEventListener(
-                "load",
-                () => {
-                    let sideLength;
+            if(tilesetName != "custom"){
+                const img = new Image()
 
-                    if(this.canvasHeight > this.canvasWidth){
-                        sideLength = Math.floor(500 / this.canvasHeight)
-                    } else {
-                        sideLength = Math.floor(500 / this.canvasWidth)
-                    }
-
-                    ctx.drawImage(img, (this.id % this.canvasWidth) * sideLength, Math.floor(this.id / this.canvasWidth) * sideLength, sideLength, sideLength)
-                },
-                false)
+                img.addEventListener(
+                    "load",
+                    () => {
+                       
+                        ctx.drawImage(img, x, y, sideLength, sideLength)
+                    },
+                    false)
+                
+    
+                img.src = "tilesets/" + tilesetName + "/" + this.states[0]
+            } else {
+                ctx.drawImage(uploadedImages[this.states[0]], x, y, sideLength, sideLength)
+            }
             
-
-            img.src = "tilesets/" + tilesetName + "/" + this.states[0] + ".png"
 
         }        
        
@@ -82,6 +65,7 @@ class Wave{
     constructor(){
         const width = parseInt(document.getElementById("width").value)
         const height = parseInt(document.getElementById("height").value)
+        this.contradiction = false
 
         this.wave = new Array(width * height)
         
@@ -144,7 +128,10 @@ class Wave{
 
        if(minimumTiles[0].states.length == 0){
             console.log("restart")
-            main()
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            wave = new Wave()
+            window.requestAnimationFrame(step)
+            return false
         } else {
             let min = minimumTiles[Math.floor(Math.random() * minimumTiles.length)]
 
@@ -232,21 +219,21 @@ class Wave{
 
 
 
-function main(){
-    const canvas = document.getElementById("canvas")
-    const ctx = canvas.getContext("2d")
+// function main(){
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+//     window.requestAnimationFrame(() => {
+    
+//         ctx.clearRect(0, 0, canvas.width, canvas.height)
+    
+//         wave = new Wave()
+//         step()
+//     })
+// }
 
-    wave = new Wave()
-    window.requestAnimationFrame(step)
-}
-
+wave = new Wave()
 function step(){
     setTimeout(() => {
-    const canvas = document.getElementById("canvas")
-    const ctx = canvas.getContext("2d")
-
+    
     wave.draw(ctx)
     if(wave.collapse()){
         window.requestAnimationFrame(step)

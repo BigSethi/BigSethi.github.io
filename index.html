@@ -23,6 +23,7 @@
                             <option value="rail">Rail</option>
                             <option value="roads">Roads</option>
                             <option value="custom">Custom</option>
+                            <option value="seed map">Seed Map</option>
                         </select>
                             
                     </form>
@@ -31,18 +32,27 @@
                         <button id="tiles-upload-button">Upload Tiles</button>
                         <input id="rules-upload" type="file">
                         <button id="rules-upload-button">Upload Rules</button>
+                        <input id="seed-map-upload" type="file" accept="image/*">
+                        <button id="seed-map-upload-button">Upload Seed Map</button>
                     </div>
                             
                     <div class="inputs">
-                        Width: 
+                        <label>Canvas Width: </label>
                         <input class="dimensions" id="width" type="number" value="5">
-                        Height:
+                        <label>Canvas Height: </label>
                         <input class="dimensions" id="height" type="number" value="5">
+                    </div>
+                    <div class="inputs">
+                        <label>Seed Map Width: </label>
+                        <input class="dimensions" id="seed-width" type="number" value="5">
+                        <label>Seed Map Height: </label>
+                        <input class="dimensions" id="seed-height" type="number" value="5">
                     </div>
     
                     <div class="buttons">
-                        <button>Back</button>
+                        <button id="build-tileset">Build Tileset</button>
                         <button id="build">Build</button>   
+                        <button id="download">Download Map</button>
                     </div>
                     
                 </div>

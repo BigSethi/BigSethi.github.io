@@ -6,6 +6,8 @@ let uploadedImages = {}
 let uploadedRules = "{}"
 const canvas = document.getElementById("canvas")
 const ctx = canvas.getContext("2d")
+let seedMap = null;
+let generatedImages = {}
 
 
 class Tile{
@@ -37,7 +39,12 @@ class Tile{
             y = Math.floor(this.id / this.canvasWidth) * sideLength
 
 
-            if(tilesetName != "custom"){
+            if(tilesetName == "custom"){
+                ctx.drawImage(uploadedImages[this.states[0]], x, y, sideLength, sideLength)
+                
+            } else if(tilesetName == "seed map"){
+                ctx.drawImage(generatedImages[this.states[0]], x, y, sideLength, sideLength)
+            } else {
                 const img = new Image()
 
                 img.addEventListener(
@@ -50,8 +57,6 @@ class Tile{
                 
     
                 img.src = "tilesets/" + tilesetName + "/" + this.states[0]
-            } else {
-                ctx.drawImage(uploadedImages[this.states[0]], x, y, sideLength, sideLength)
             }
             
 
